@@ -1,0 +1,7 @@
+Date First Published: 2013-06-27
+
+Lookout Mobile Security contains a denial-of-service vulnerability
+
+Lookout Mobile Security (version 8.14.1-7fe5f1) crashes if an intent is sent to com.lookout.security.ScanTell with no arguments.
+
+A malicious application installed on the phone may be able to disable the Lookout Mobile Security software.

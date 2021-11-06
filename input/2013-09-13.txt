@@ -1,0 +1,22 @@
+Date First Published: 2013-09-13
+
+Dahua Security DVRs contain multiple vulnerabilities
+
+Dahua Technologies Co., Ltd. produces DVR appliances that contain multiple vulnerabilities.
+CWE-798: Use of Hard-coded Credentials - CVE-2013-3612
+All DVRs of the same series ship with the same default root password on a read-only partition. Therefore, the root password can only be changed by flashing the firmware. Additionally, a separate hard-coded remote backdoor account exists that can be used to control cameras and other system components remotely. It is only accessible if authorization is done through ActiveX or the stand-alone client. Additionally, a hash of the current date can be used as a master password to gain access to the system and reset the administrator's password.
+
+CWE-294: Authentication Bypass by Capture-reply - CVE-2013-3613
+The DVR appliance accepts UPnP requests from external untrusted devices. This can cause the telnet port of a DVR appliance to be automatically forwarded and accessible by external parties. These default conditions could allow an external attacker to detect the device and authenticate using the hard-coded credentials.
+
+CWE-521: Weak Password Requirements - CVE-2013-3614
+The device enforces insufficient password requirements. User passwords are limited to only six characters in length, making them computationally feasible to discover using brute-force methods.
+
+CWE-916: Use of Password Hash with Insufficient Computational Effort - CVE-2013-3615
+User passwords are hashed with a weak 48-bit algorithm, and are therefore susceptible to brute-force attacks within a reasonable amount of time.
+
+The CVSS score reflects CVE-2013-3612.
+
+Dahua has disputed some of these vulnerabilities. Please see Dahua's vendor information for details.
+
+An unauthenticated remote attacker could gain privileged access to the device and compromise the confidentiality and integrity of its data. Additionally, the attacker could cause a denial-of-service.

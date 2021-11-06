@@ -1,0 +1,7 @@
+Date First Published: 2013-02-22
+
+CS-Cart v3.0.4 configured with PayPal Standard Payments design vulnerability
+
+It has been reported that CS-Cart v3.0.4 configured with PayPal Standard Payments contains a design flaw that allows an attacker to buy items without having to pay for them. The parameter for the merchant's PayPal email address is controlled on the client-side and not verified by the server. This allows an attacker to change the PayPal email address to one the attacker controls allowing the attacker to purchase items on a website but effectively pay themselves instead of the merchant. Manual verification of website orders with the PayPal transactions would need to be performed to detect this fraud.
+
+An attacker can effectively purchase items without paying the merchant for them.

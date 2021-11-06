@@ -1,0 +1,10 @@
+Date First Published: 2013-08-15
+
+Dell BIOS in some Latitude laptops and Precision Mobile Workstations vulnerable to buffer overflow
+
+CWE-119: Improper Restriction of Operations within the Bounds of a Memory Buffer
+Dell BIOS in some older Latitude laptops and Precision Mobile Workstations is vulnerable to buffer overflows in the rbu_packet.pktNum and rbu_packet.pktSize values. These values can be set by an attacker while performing an illegitimate BIOS update. The BIOS reads these values when reconstructing the BIOS image, before any signature check occurs.
+
+More information is available from the BIOS Security presentation at Black Hat USA 2013.
+
+By convincing a user with root or administrative privileges to execute a malicious BIOS update, an attacker can bypass the signed BIOS enforcement to install an arbitrary BIOS image that could contain a rootkit or malicious code that persists across operating system re-installations and official BIOS updates.

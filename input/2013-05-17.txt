@@ -1,0 +1,7 @@
+Date First Published: 2013-05-17
+
+Linux kernel perf_swevent_enabled array out-of-bound access privilege escalation vulnerability
+
+The Linux kernel's Performance Events implementation is susceptible to an out-of-bounds array vulnerability that may be used by a local unprivileged user to escalate privileges. Additional analysis of the vulnerability may be found in the Red Hat bug report. A public exploit is available that has been reported to work against some Linux distributions.
+
+A local authenticated user may be able to exploit this vulnerability to escalate privileges.

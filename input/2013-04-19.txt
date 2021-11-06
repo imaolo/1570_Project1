@@ -1,0 +1,7 @@
+Date First Published: 2013-04-19
+
+BitZipper 2013 memory-corruption vulnerability
+
+BitZipper 2013 contains a memory-corruption vulnerability, which may allow a remote unauthenticated attacker to execute arbitrary code on a vulnerable system.
+
+By convincing a user to view a specially crafted ZIP document, an attacker may be able to execute arbitrary code on a vulnerable system.

@@ -1,0 +1,392 @@
+#include <bits/stdc++.h>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <queue>
+#include <iterator>
+#include <experimental/filesystem>
+
+namespace fs = std::experimental::filesystem;
+using namespace std;
+
+#define NOISES_FN "noises.txt"
+#define DELIMITERS_FN "delimiters.txt"
+#define OUTPUT_FN "taskp_output.txt"
+#define stringLower(line) transform(line.begin(), line.end(), line.begin(), ::tolower);
+#define NUM_STAGES 5
+
+vector<string> getLinesFrom(string);
+vector<string> getInputPaths (const string&);
+vector<string> readFiles(const vector<string>&);
+vector<string> tokenize(vector<string>, string);
+vector<string> removeNoises(vector<string>, vector<string>);
+vector<pair<string,int>> countTokens(vector<string>);
+vector<pair<string,int>> getTopTokens(vector<pair<string, int>>);
+void writeToFile(string, vector<pair<string, int>>);
+
+//pipeline threads - make a queues to pass data across pipeline stages
+// locks
+pthread_mutex_t input_paths_ql;
+pthread_mutex_t input_lines_ql;
+pthread_mutex_t tokens_ql;
+pthread_mutex_t tokens_clean_ql;
+pthread_mutex_t stage_statuses_l[NUM_STAGES];
+//quques
+queue<string> input_paths_q;
+queue<string> input_lines_q;
+queue<string> tokens_q;
+queue<string> tokens_clean_q;
+// the result of the pipeline -> could be an argument to final stage
+vector<pair<string, int>> token_counts;
+// stage status
+int stage_statuses[NUM_STAGES] = {0};
+//thread pipeline stages
+void *getInputPaths_t(void *arg){
+  string *path = (string *) arg;
+  pthread_mutex_lock(&input_paths_ql);
+  for (const auto & entry: fs::directory_iterator(*path)){
+    //pthread_mutex_lock(&input_paths_ql);
+    input_paths_q.push(entry.path());
+    //pthread_mutex_unlock(&input_paths_ql);
+  }
+  pthread_mutex_unlock(&input_paths_ql);
+  pthread_mutex_lock(&stage_statuses_l[0]);
+  stage_statuses[0] = 1;
+  pthread_mutex_unlock(&stage_statuses_l[0]);
+}
+void *readFiles_t(void *arg){
+  pthread_mutex_lock(&stage_statuses_l[0]);
+  int done = stage_statuses[0];
+  pthread_mutex_unlock(&stage_statuses_l[0]);
+  do{
+    vector<string> paths;
+    pthread_mutex_lock(&input_paths_ql);
+    while (!input_paths_q.empty()){
+      paths.push_back(input_paths_q.front());
+      input_paths_q.pop();
+    }
+    pthread_mutex_unlock(&input_paths_ql);
+    vector<string> lines = readFiles(paths);
+    pthread_mutex_lock(&input_lines_ql);
+    for (string line: lines)
+      input_lines_q.push(line);
+    pthread_mutex_unlock(&input_lines_ql);
+    pthread_mutex_lock(&stage_statuses_l[0]);
+    done = stage_statuses[0];
+    pthread_mutex_unlock(&stage_statuses_l[0]);
+  }while (!done);
+  // clean up the stragglers, do not need to use mutex for input bc previous stage is finished
+  vector<string> paths;
+  while (!input_paths_q.empty()){
+    paths.push_back(input_paths_q.front());
+    input_paths_q.pop();
+  }
+  vector<string> lines = readFiles(paths);
+  pthread_mutex_lock(&input_lines_ql);
+  for (string line : lines)
+    input_lines_q.push(line);
+  pthread_mutex_unlock(&input_lines_ql);
+  //thread is complete
+  pthread_mutex_lock(&stage_statuses_l[1]);
+  stage_statuses[1] = 1;
+  pthread_mutex_unlock(&stage_statuses_l[1]);
+}
+void *tokenize_t(void *arg){
+  vector<string> * delimiters = (vector<string> *)arg; 
+  pthread_mutex_lock(&stage_statuses_l[1]);
+  int done = stage_statuses[1];
+  pthread_mutex_unlock(&stage_statuses_l[1]);
+  do {
+    vector<string> tokens;
+    pthread_mutex_lock(&input_lines_ql);
+    while (!input_lines_q.empty()){
+      tokens.push_back(input_lines_q.front());
+      input_lines_q.pop();
+    }
+    pthread_mutex_unlock(&input_lines_ql);
+    for (string del: *delimiters)
+      tokens = tokenize(tokens, del);
+    pthread_mutex_lock(&tokens_ql);
+    for (string token: tokens)
+      tokens_q.push(token);
+    pthread_mutex_unlock(&tokens_ql);
+    pthread_mutex_lock(&stage_statuses_l[1]);
+    done = stage_statuses[1];
+    pthread_mutex_unlock(&stage_statuses_l[1]);
+  }while (!done);
+  //clean up stragglers
+  vector<string> tokens;
+  while(!input_lines_q.empty()){
+    tokens.push_back(input_lines_q.front());
+    input_lines_q.pop();
+  }
+  for (string del: *delimiters)
+    tokens = tokenize(tokens, del);
+  pthread_mutex_lock(&tokens_ql);
+  for (string token: tokens)
+    tokens_q.push(token);
+  pthread_mutex_unlock(&tokens_ql);
+  pthread_mutex_lock(&stage_statuses_l[2]);
+  stage_statuses[2] = 1;
+  pthread_mutex_unlock(&stage_statuses_l[2]);
+}
+void *removeNoise_t(void *arg){
+  vector<string> *noises = (vector<string> *) arg;
+  pthread_mutex_lock(&stage_statuses_l[2]);
+  int done = stage_statuses[2];
+  pthread_mutex_unlock(&stage_statuses_l[2]);
+  do {
+    vector<string> tokens;
+    pthread_mutex_lock(&tokens_ql);
+    while (!tokens_q.empty()){
+      tokens.push_back(tokens_q.front());
+      tokens_q.pop();
+    }
+    pthread_mutex_unlock(&tokens_ql);
+    tokens = removeNoises(tokens, *noises);
+    pthread_mutex_lock(&tokens_clean_ql);
+    for (string token: tokens)
+      tokens_clean_q.push(token);
+    pthread_mutex_unlock(&tokens_clean_ql);
+    pthread_mutex_lock(&stage_statuses_l[2]);
+    done = stage_statuses[2];
+    pthread_mutex_unlock(&stage_statuses_l[2]);
+  } while(!done);
+  //clean up stragglers
+  vector<string> tokens;
+  while(!tokens_q.empty()){
+    tokens.push_back(tokens_q.front());
+    tokens_q.pop();
+  }
+  tokens = removeNoises(tokens, *noises);
+  pthread_mutex_lock(&tokens_clean_ql);
+  for (string token: tokens)
+    tokens_clean_q.push(token);
+  pthread_mutex_unlock(&tokens_clean_ql);
+  pthread_mutex_lock(&stage_statuses_l[3]);
+  stage_statuses[3] = 1;
+  pthread_mutex_unlock(&stage_statuses_l[3]);
+} 
+void *countTokens_t(void *arg){
+  pthread_mutex_lock(&stage_statuses_l[3]);
+  int done = stage_statuses[3];
+  pthread_mutex_unlock(&stage_statuses_l[3]);
+  do{
+    vector<string> tokens;
+    pthread_mutex_lock(&tokens_clean_ql);
+    while (!tokens_clean_q.empty()){
+      tokens.push_back(tokens_clean_q.front());
+      tokens_clean_q.pop();
+    }
+    pthread_mutex_unlock(&tokens_clean_ql);
+    for (string token : tokens){
+      vector<pair<string, int>>::iterator it;
+      it = find_if(token_counts.begin(), token_counts.end(), [&](const pair<string,int> &elem){return elem.first == token;});
+      if (it != token_counts.end())
+	it->second++;
+      else
+	token_counts.push_back(make_pair(token, 1));
+    }
+    pthread_mutex_lock(&stage_statuses_l[3]);
+    done = stage_statuses[3];
+    pthread_mutex_unlock(&stage_statuses_l[3]);
+  } while(!done);
+  //clean up stragglers
+  vector<string> tokens;
+  while(!tokens_clean_q.empty()){
+    tokens.push_back(tokens_clean_q.front());
+    tokens_clean_q.pop();
+  }
+  for(string token: tokens){
+    vector<pair<string, int>>::iterator it;
+    it = find_if(token_counts.begin(), token_counts.end(), [&](const pair<string,int> &elem){return elem.first == token;});
+    if (it != token_counts.end())
+      it->second++;
+    else
+      token_counts.push_back(make_pair(token,1));
+  }
+  sort(token_counts.begin(), token_counts.end(), sortbysecdesc);
+}
+/*
+pipeline
+1 - read delimiters file
+2 - read noises file
+3 - get file paths
+4 - read files by line
+5 - tokenize
+6 - remove noise
+7 - count remaining tokens
+8 - extract top 10% of token
+9 - write top tokens to output file
+ */
+int main(){
+  // 1 - read delimiters files
+  vector<string> delimiters = getLinesFrom(DELIMITERS_FN);
+  // 2 - read noises file
+  vector<string> noises = getLinesFrom(NOISES_FN);
+  for (string del: delimiters){
+    if (!count(noises.begin(), noises.end(), del))
+	noises.push_back(del);
+  }
+  // get input file path
+  string path_to_inputs = fs::current_path().append("/input");
+  //THREADS
+  pthread_t ids[NUM_STAGES];
+  // config mutexes
+  pthread_mutex_init(&input_paths_ql, NULL);
+  pthread_mutex_init(&input_lines_ql, NULL);
+  pthread_mutex_init(&tokens_ql, NULL);
+  pthread_mutex_init(&tokens_clean_ql, NULL);
+  for (int i=0;i<NUM_STAGES; i++)
+    pthread_mutex_init(&stage_statuses_l[i], NULL);
+  //create threads
+  pthread_create(&ids[0], NULL, getInputPaths_t, (void *) &path_to_inputs);
+  pthread_create(&ids[1], NULL, readFiles_t, NULL);
+  pthread_create(&ids[2], NULL, tokenize_t, (void *)&delimiters);
+  pthread_create(&ids[3], NULL, removeNoise_t, (void *)&noises);
+  pthread_create(&ids[4], NULL, countTokens_t, NULL);
+  //join threads
+  for (int i=0; i<NUM_STAGES; i++)
+    pthread_join(ids[i], NULL);
+  //destroy mutexes
+  pthread_mutex_destroy(&input_paths_ql);
+  pthread_mutex_destroy(&input_lines_ql);
+  pthread_mutex_destroy(&tokens_ql);
+  pthread_mutex_destroy(&tokens_clean_ql);
+  for (int i=0; i< NUM_STAGES; i++)
+    pthread_mutex_destroy(&stage_statuses_l[i]);
+  vector<pair<string, int>> top_token_counts = getTopTokens(token_counts);
+  writeToFile(OUTPUT_FN, top_token_counts);
+  /*
+  // 3 - path_to_inputs is the path to the input files
+  // 3 - input_paths contains the paths to all input files
+  string path_to_inputs = fs::current_path().append("/input");
+  vector<string> input_paths = getInputPaths(path_to_inputs);
+  // 4 - read the files into the tokens vector. Each token is a line
+  vector<string> tokens = readFiles(input_paths);
+  // 5 - tokenize
+  for (string del: delimiters)
+    tokens = tokenize(tokens, del);//there could be memory concerns with the way I redeclare a new tokens vector inside every func call
+  // 6 - add the delimiters to the noise and remove noise
+  for (string del: delimiters){
+    if(!count(noises.begin(), noises.end(), del))
+      noises.push_back(del);
+  }
+  tokens = removeNoises(tokens, noises);
+  // 7 - count the tokens
+  vector<pair<string, int>> token_counts = countTokens(tokens);
+  */
+  // 8 - extract top 10% tokens
+  //vector<pair<string, int>> top_token_counts = getTopTokens(token_counts);
+  // 9 - write top tokens to output file
+  //writeToFile(OUTPUT_FN, top_token_counts);
+  return 0;
+}
+
+
+//functions
+void writeToFile(string fn, vector<pair<string, int>> token_counts){
+  ofstream file (fn);
+  if (file.is_open()){
+    vector<pair<string,int>>::iterator it;
+    for (it = token_counts.begin(); it != token_counts.end(); ++it)
+      file << it->first << ":" << it->second << endl;
+    file.close();
+  }
+
+}
+vector<pair<string, int>> getTopTokens(vector<pair<string, int>> token_counts){
+  vector<pair<string, int>> top_token_counts;
+  int sum = 0;
+  vector<pair<string, int>>::iterator it;
+  for (it = token_counts.begin(); it != token_counts.end(); ++it)
+    sum += it->second;
+  int tmp_sum = 0;
+  for (it = token_counts.begin(); it != token_counts.end(); ++it){
+    tmp_sum += it->second;
+    float percentage = (float) tmp_sum / (float) sum;
+    if (percentage < 0.1)
+      top_token_counts.push_back(*it);
+    else
+      break;
+  }
+  return top_token_counts;
+}
+vector<string> getLinesFrom(string fn){
+  vector<string> lines;
+  ifstream file (fn);
+  string line;
+  if (file.is_open()){
+    while(getline(file,line)){
+      lines.push_back(line);
+    }
+  }
+  file.close();
+  return lines;
+}
+//countTokens helper function
+bool sortbysecdesc(const pair<string, int> &a, const pair<string, int> &b){
+  return a.second > b.second;
+}
+vector<pair<string,int>> countTokens(vector<string> tokens){
+  vector<pair<string,int>> token_counts;
+  for (string token : tokens){
+    vector<pair<string,int>>::iterator it;
+    it = find_if(token_counts.begin(), token_counts.end(), [&](const pair<string,int>& elem){return elem.first == token;});
+    if (it != token_counts.end())
+      it->second++;
+    else
+      token_counts.push_back(make_pair(token, 1));
+  }
+  sort(token_counts.begin(), token_counts.end(), sortbysecdesc);
+  return token_counts;
+}
+
+vector<string> removeNoises(vector<string> tokens, vector<string> noises){
+  for (string noise: noises){
+    vector<string>::iterator it = tokens.begin();
+    while (it != tokens.end()){
+      if (*it == noise)
+        it = tokens.erase(it);
+      else
+        it++;
+    }
+  }
+  return tokens;
+}
+vector<string> readFiles(const vector<string>& paths){
+  vector<string> lines;
+  ifstream file;
+  string line;
+  for (string path: paths){
+    file.open(path);
+    while(getline(file,line)){
+        stringLower(line);
+        lines.push_back(line);
+    }
+    file.close();
+  }
+  return lines;
+}
+vector<string> tokenize(vector<string> strings, string del){
+  vector<string> tokens;
+  for (string s: strings){
+    int start = 0;
+    int end = s.find(del);
+    while (end != -1){
+      tokens.push_back(s.substr(start, end - start));
+      start = end + del.size();
+      end = s.find(del, start);
+    }
+    tokens.push_back(s.substr(start, end - start));
+  }
+  return tokens;
+}
+vector<string> getInputPaths(const string& path){
+  vector<string> paths;
+  for (const auto & entry: fs::directory_iterator(path))
+    paths.push_back(entry.path());
+  return paths;
+}
+//g++ main.cpp -o main -lstdc++fs

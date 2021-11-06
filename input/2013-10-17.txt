@@ -1,0 +1,11 @@
+Date First Published: 2013-10-17
+
+SAP Sybase Adaptive Server Enterprise vulnerable to XML injection
+
+CWE-611: Improper Restriction of XML External Entity Reference ('XXE')
+SAP Sybase Adaptive Server Enterprise (ASE) Version 15.7 ESD 2 contains an XML injection vulnerability, which can lead to information exposure. This is due to the expanded use of XML External Entity (XXE) Processing. The XMLParse procedure is vulnerable to attack. Using a specially crafted SQL request, an authenticated attacker may be able to read files with the permissions of the user running the ASE application.
+
+For example, the attacker can read the /etc/passwd file of the server using the following SQL query:
+SELECT xmlextract('/', xmlparse('<?xml version="1.0" standalone="yes"?><!DOCTYPE content [ <!ENTITY abc SYSTEM "/etc/passwd">]><content>&abc;</content>'))
+
+An authenticated attacker may be able to use the vulnerabilities to read user credentials. This may be used to obtain unauthorized administrative or privileged access to the system.

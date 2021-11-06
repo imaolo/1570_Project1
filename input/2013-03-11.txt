@@ -1,0 +1,8 @@
+Date First Published: 2013-03-11
+
+HP LaserJet Professional printer telnet debug shell vulnerability
+
+Certain HP LaserJet Professional printers contain a telnet debug shell which could allow a remote attacker to gain unauthorized access to data.
+For additional vulnerability information and a list of affected devices see HP Security Bulletin HPSBPI02851 SSRT101078.
+
+A remote unauthenticated attacker can connect to the telnet debug shell and gain unauthorized access to data.

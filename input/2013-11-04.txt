@@ -1,0 +1,20 @@
+Date First Published: 2013-11-04
+
+Attachmate Verastream Host Integrator (VHI) allows arbitrary file upload and execution
+
+CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') - CVE-2013-3626
+The Attachmate VHI Session Server, on all platforms, allows unauthenticated remote attackers to write arbitrary files on the machine in which the product is installed by sending a specially crafted message to the VHI Session Server. The affected versions are:
+
+7.5 SP 1 HF 1
+7.5 SP 1
+7.5
+7.1 SP 2 HF 1 - 6
+7.1 SP 2
+7.1 SP 1
+7.1
+7.0
+6.6
+6.5
+6.0
+
+An attacker may be able to gain complete control of the server on which the application is installed.

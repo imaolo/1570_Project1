@@ -1,0 +1,10 @@
+Date First Published: 2013-09-03
+
+Cisco Prime Network Control System (NCS) and Wireless Control System (WCS) vulnerable to cross-site scripting (XSS)
+
+CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')
+Cisco Prime Network Control System (NCS) and Wireless Control System (WCS) Health Monitor Login pages contain an input validation error which results in a reflected cross-site scripting vulnerability that can allow an attacker to inject arbitrary HTML content (including script).
+
+Please see Cisco Release Note Enclosure (RNE) CSCud18375 (login required) for more information.
+
+An attacker can conduct a cross-site scripting attack which may be used to inject arbitrary HTML content (including script) into a web page presented to the user. JavaScript can be used to steal authentication cookies or other sensitive information.

@@ -1,0 +1,7 @@
+Date First Published: 2013-05-15
+
+Mutiny Appliance contains multiple directory traversal vulnerabilities
+
+The Mutiny appliance commands for UPLOAD, DELETE, CUT and COPY are all vulnerable to directory traversal attacks. Additional details may be found in the Rapid7 blog post entitled, "New 1day Exploits: Mutiny Vulnerabilities".
+
+An authenticated remote attacker may be able to upload, delete, and move files on the system with root privileges.

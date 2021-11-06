@@ -1,0 +1,10 @@
+Date First Published: 2013-11-18
+
+Adobe ColdFusion is vulnerable to cross-site scripting via the logviewer directory
+
+CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')
+Adobe ColdFusion 10 update 11 and possibly earlier versions contains a reflected cross-site scripting (XSS) vulnerability. An attacker can inject arbitrary HTML content (including script) within the /logviewer/ directory.
+
+The vulnerability requires using a relative path, although there is no directory traversal vulnerability.
+
+A remote unauthenticated attacker can conduct a cross-site scripting attack, which may be used to result in information leakage, privilege escalation, and/or denial of service.

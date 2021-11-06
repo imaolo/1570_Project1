@@ -1,0 +1,10 @@
+Date First Published: 2013-10-04
+
+McAfee Managed Agent contains a denial-of-service (DoS) vulnerability
+
+CWE-400:Uncontrolled Resource Consumption ('Resource Exhaustion')
+McAfee Managed Agent versions 4.5 and 4.6 contain a denial-of-service (DoS) vulnerability. McAfee Managed Agent runs a service on Windows workstations called "McAfee Framework Service" (FrameworkService.exe) which runs an HTTP server on the default TCP port 8081.
+
+By sending a crafted request an attacker can remotely crash the Windows service. This can cause the McAfee software to temporarily stop updating or provide log data until the service is manually restarted.
+
+An unauthenticated remote attacker may be able to cause a denial-of-service against the McAfee Managed Agent software.

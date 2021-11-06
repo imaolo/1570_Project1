@@ -1,0 +1,12 @@
+Date First Published: 2013-10-22
+
+DrayTek Vigor 2700 ADSL router contains a command injection vulnerability
+
+CWE-77: Improper Neutralization of Special Elements used in a Command ('Command Injection')
+DrayTek Vigor 2700 ADSL router version 2.8.3 contains a command injection vulnerability. The Vigor router stores discovered SSIDs of surrounding access points into the sWlessSurvey variable inside variables.js, which is a list of multiple variables used by the web administration console. An attacker can utilize JavaScript code in the SSID value of a malicious nearby access point which will cause the DrayTek router to execute the command when it adds the SSID into the variables.js list.
+
+An attacker within range of the DrayTek Vigor ADSL router can edit the SSID on their malicious access point to corrupt the variables.js file. This may cause the DrayTek router to call external scripts or make unauthorized changes to the settings, which may include poisoning the DNS cache.
+
+The attacker may continue changing the SSID value of their rogue access point, causing JavaScript alert messages to be sent to the web console, thus preventing administration to the DrayTek router.
+
+This attack requires the victim to manually scan for SSID values from the web administration page. Conversely, the device will automatically scan for any SSIDs in range when it is first powered on.

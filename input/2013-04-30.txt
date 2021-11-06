@@ -1,0 +1,11 @@
+Date First Published: 2013-04-30
+
+IBM Notes runs arbitrary JAVA and Javascript in emails
+
+The n.runs AG security advisory states:
+
+Notes 8.5.3 does not filter <applet> tags inside HTML emails. This can be used to load arbitrary Java applets from remote sources (making it an information disclosure as well as this can be used to trigger an HTTP request once the mail is previewed/opened).
+
+Additional details may be found in the full n.runs AG security advisory. It should also be noted that the IBM JRE that comes with the latest patched version of IBM Notes is IBM JRE 6 SR12 while IBM JRE 6 SR13 has been released and includes many security related fixes.
+
+A remote unauthenticated attack may be able to execute arbitrary code in the context of the user viewing emails within IBM Notes.

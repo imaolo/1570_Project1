@@ -1,0 +1,17 @@
+Date First Published: 2013-08-23
+
+SearchBlox contains multiple vulnerabilities
+
+SearchBlox versions 7.4 Build 1 and older contain multiple vulnerabilities that allow an unauthenticated attacker to compromise the integrity of the system and the confidentiality of its data. Specifically:
+CWE-77: Command Injection - CVE-2013-3590
+Active content, such as JSP pages, can be uploaded to http://HOSTNAME:8080/searchblox/admin/uploadImage.html. This can be done by submitting the content using the form and using a client proxy to ensure that the "Content-Type" for the uploaded file is "image/jpeg". The attacker can then visit the uploaded content and enable its execution.
+
+CWE-200: Information Exposure - CVE-2013-3597
+Usernames and passwords can be read from the database by visiting http://HOSTNAME:8080/searchblox/servlet/CollectionListServlet?action=getList&orderBy=colName&direction=asc
+
+CWE-73: External Control of File Name or Path - CVE-2013-3598
+Filesystem data can be remotely overwritten by sending an HTTP POST request to /searchblox/servlet/CreateTemplateServlet and modifying the "name" parameter to point to an arbitrary system file, such as "../../../../../etc/shadow".
+
+The CVSS scores reflect the command injection attack.
+
+An unauthenticated remote attacker could compromise the confidentiality of the system's data, perform arbitrary code execution, overwrite data on the filesystem with the application's privileges, and compromise the availability of the system.

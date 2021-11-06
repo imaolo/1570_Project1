@@ -1,0 +1,12 @@
+attacker:169
+2013:130
+vulnerability:126
+first:86
+date:80
+published:79
+user:77
+code:76
+access:73
+arbitrary:72
+cwe:71
+web:69

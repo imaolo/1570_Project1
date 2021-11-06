@@ -1,0 +1,12 @@
+Date First Published: 2013-02-01
+
+Oracle Java contains multiple vulnerabilities
+
+The Oracle Java Runtime Environment (JRE) allows users to run Java applications in a browser or as standalone programs. Oracle has made the JRE available for multiple operating systems.
+The Java JRE plug-in provides its own Security Manager. Typically, a web applet runs with a security manager provided by the browser or Java Web Start plugin. Oracle's document states, "If there is a security manager already installed, this method first calls the security manager's checkPermission method with a RuntimePermission("setSecurityManager") permission to ensure it's safe to replace the existing security manager. This may result in throwing a SecurityException".
+
+By leveraging a number of vulnerabilities, an untrusted Java applet can escalate its privileges to allow full privileges, without requiring code signing. Other vulnerabilities can cause exploitable memory corruption, which could affect Java applets, as well as Java applications, depending on what the Java application does and how it may process untrusted data. Oracle Java 7 Update 11, Java 6 Update 38, and earlier Java versions are affected.
+
+At least one of these vulnerabilities is reportedly being exploited in the wild.
+
+By convincing a user to visit a specially crafted HTML document, a remote attacker may be able to execute arbitrary code on a vulnerable system. Note that applications that use the Internet Explorer web content rendering components, such as Microsoft Office or Windows Desktop Search, may also be used as an attack vector for these vulnerabilities. The vulnerabilities that affect server deployments of Java may be exploited by causing a Java server application to process untrusted data.

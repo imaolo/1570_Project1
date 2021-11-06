@@ -1,0 +1,8 @@
+Date First Published: 2013-09-24
+
+HP System Management Homepage vulnerable to a denial-of-service condition
+
+CWE-121: Stack-based Buffer Overflow
+HP System Management Homepage 7.2.0.14 contains a denial-of-service vulnerability. The remote attacker may send the listener service a malformed request using the iprange parameter in /proxy/DataValidation. One of the listener child processes will then crash with that request value, overwriting EIP and corrupting the stack, resulting in a denial-of-service condition.
+
+A remote attacker may be able to cause a denial-of-service condition against the HP System Management Homepage software.

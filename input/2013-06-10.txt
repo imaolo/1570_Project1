@@ -1,0 +1,23 @@
+Date First Published: 2013-06-10
+
+Faircom c-treeACE database weak obfuscation algorithm vulnerability
+
+Faircom c-treeACE provides a weak obfuscation algorithm that may be unobfuscated without knowledge of a key or password. Faircom formerly described this algorithm as follows:
+
+FairCom Standard Encryption
+
+Using our standard proprietary encryption algorithm provides the means to add an extra level of confidentiality to an application’s data. FairCom designed its proprietary encryption algorithm for speed and efficiency, focusing on minimizing performance loss.
+The encryption algorithm is proprietary to FairCom Corporation and the details are not released in any way to increase the difficulty of reverse-engineering the process. While reverse-engineering is a violation of the licensing agreement, it remains a remote possibility, and FairCom does everything possible to limit the potential exposure of the FairCom algorithms.
+This Standard File Encryption is not intended as a replacement for OS or other security systems, however, as a supplement to existing security. Standard File Encryption is suitable for most needs with excellent security vs. performance tradeoffs.
+
+Faircom has come up with a new branding called "Data Camouflage" so it will be less likely to be confused with standard encryption algorithms, such as, AES. Faircom describes the "Data Camouflage" algorithm as follows:
+
+Data Camouflage
+
+Using our Data Camouflage technique provides the means to add an extra level of confidentiality to an application’s data. FairCom designed this approach to mask the file on the disk without sacrificing speed and efficiency, focusing on minimizing performance loss.
+
+Data Camouflage is not intended as a replacement for OS or other security systems, however, as a supplement to existing security. It is suitable for most needs with excellent security vs. performance tradeoffs. With this approach, you can protect data on disk from unauthorized inspection, but any c-treeACE client can access the protected files. To avoid this, the Advanced File Encryption option includes the ability to have hidden keys. Proper implementation of user access controls within c-treeACE is also recommend to prevent unauthorized access to data, even it not masked with the Data Camouflage feature.
+
+An attacker that is able to obtain a c-treeACE database that is obfuscated using the Data Camouflage algorithm (formerly Faircom Standard Encryption) may be able to unobfuscate the database by moving it to a trial install of c-treeACE, deleting the .fcs configuration files and replacing the .fcs files with the default files from the trial. This will allow the attacker to authenticate to the database with default ADMIN/ADMIN credentials and view the contents of the obfuscated database.
+
+An attacker that is able to obtain a database that uses the Data Camouflage algorithm (formerly Faircom Standard Encryption) may be able to unobfuscate the contents of the database.

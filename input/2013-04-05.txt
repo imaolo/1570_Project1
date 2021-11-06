@@ -1,0 +1,14 @@
+Date First Published: 2013-04-05
+
+PHP Address Book sqli vulnerability
+
+CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection')
+PHP Address Book 8.2.5 and possibly older versions fail to sanitize input from multiple functions.
+http://www.example.com/addressbook/register/checklogin.php?username={insert}&password=pass
+http://www.example.com/addressbook/register/admin_index.php?q={insert}
+http://www.example.com/addressbook/register/delete_user.php?id={insert}
+http://www.example.com/addressbook/register/edit_user.php?id={insert}
+
+Additional information on vulnerable functions can be found at Acadion Security advisory.
+
+A remote unauthenticated attacker may be able to run a subset of SQL commands against the back-end database.

@@ -1,0 +1,8 @@
+Date First Published: 2013-01-11
+
+TP-LINK TL-WR841N wireless router local file inclusion vulnerability
+
+CWE-829: Inclusion of Functionality from Untrusted Control Sphere
+The TP-LINK TL-WR841N wireless router web-based management interface contains a local file inclusion (LFI) vulnerability. The URL parameter is not properly sanitized before being parsed. It has been reported that TP-LINK TL-WR841N wireless router running firmware version: 3.13.9 Build 120201 Rel.54965n and below are affected.
+
+An attacker with access to the TP-LINK TL-WR841N web interface could download critical configuration files off the device.

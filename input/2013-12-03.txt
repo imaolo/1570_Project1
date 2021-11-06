@@ -1,0 +1,10 @@
+Date First Published: 2013-12-03
+
+AT&T Connect Participant Application for Windows v9.5.35 contains a stack-based buffer overflow vulnerability
+
+CWE-121: Stack-based Buffer Overflow
+AT&T Connect Participant Application for Windows v9.5.35 and possibly earlier versions contain a stack-based buffer overflow vulnerability. AT&T Connect allows a user to join a web conference via a web browser. When joining a conference, AT&T provides the .SVT file for the user to open. Upon opening the file, the user is able to join the conference.
+
+An attacker can send a malformed .SVT file to a victim which can allow the attacker to run arbitrary code in the context of the logged in user.
+
+A remote unauthenticated attacker that is able to trick a user into opening a malicious .SVT file may be able to obtain sensitive information, cause a denial of service condition, or execute arbitrary code with the privileges of the application.

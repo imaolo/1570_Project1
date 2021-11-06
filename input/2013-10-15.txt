@@ -1,0 +1,8 @@
+Date First Published: 2013-10-15
+
+HR Systems Strategies info:HR HRIS allows read access to weakly obfuscated shared database password
+
+info:HR is "...a robust, general-purpose Human Resources Information System (HRIS)" that runs on the Microsoft Windows platform and uses Microsoft SQL Server. info:HR stores database credentials in a registry key that allows read access to any local user. The database password is weakly obfuscated with a static key and can be easily deciphered.
+Aspects of this vulnerability include CWE-314: Cleartext Storage in the Registry, CWE-327: Use of a Broken or Risky Cryptographic Algorithm.
+
+A local attacker can read and decipher the SQL database password, granting the attacker complete control over the database. The attacker can also read and decipher info:HR application passwords to gain administrative privileges in the application. info:HR systems are likely to contain sensitive personally identifiable information (PII).

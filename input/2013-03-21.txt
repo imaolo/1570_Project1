@@ -1,0 +1,20 @@
+Date First Published: 2013-03-21
+
+NVIDIA Windows video card drivers contain multiple vulnerabilities
+
+The NVIDIA security advisory states:
+
+CVE-2013-0109: NVIDIA Display Driver Service Vulnerability
+Due to an issue identified with the NVIDIA driver, a malicious actor could – by forcing exceptions and overwriting memory –potentially escalate privileges to gain administrative control of a system. The vulnerability is associated with the NVIDIA Display Driver service, and affects NVIDIA drivers for Windows operating systems (Windows XP/Windows Vista/Windows 7/Windows 8 - 32 & 64-bit) starting with the Release 173 drivers.
+
+CVE-2013-0110: NVIDIA Stereoscopic 3D Driver Service Vulnerability
+NVIDIA has verified an issue with the NVIDIA Stereoscopic 3D Driver Service (nvSCPAPISvr.exe), which could allow a malicious actor to potentially escalate privileges locally by inserting an executable file in the path of the affected service. The specific issue identified was that the service used an unquoted service path, containing at least one whitespace.
+
+CVE-2013-0111: NVIDIA Update Service Daemon Vulnerability
+NVIDIA has verified an issue with the NVIDIA Update Service Daemon (daemonu.exe), which could allow a malicious actor to potentially escalate privileges locally by inserting an executable file in the path of the affected service. The specific issue identified was that the service used an unquoted service path, containing at least one whitespace.
+
+The vulnerabilities are present in NVIDIA drivers starting with driver version 173.01 and are resolved in driver releases starting with version 311.00 (for Release 310) and version 307.78 (for Release 304).
+
+Additional details may be found on the NVIDIA support page.
+
+A local authenticated attacker may be able to escalate privileges or cause a denial of service.

@@ -1,0 +1,14 @@
+Date First Published: 2013-10-01
+
+L3 CPU shared cache architecture is susceptible to a Flush+Reload side-channel attack
+
+Common L3 CPU shared cache architecture is susceptible to a Flush+Reload side-channel attack, as described in "Flush+Reload: a High Resolution, Low Noise, L3 Cache Side-Channel Attack" by Yarom and Falkner.
+By manipulating memory stored in the L3 cache by a target process and observing timing differences between requests for cached and non-cached memory, an attacker can derive specific information about the target process. The paper demonstrates an attack against GnuPG on an Intel Ivy Bridge platform that recovers over 98% of the bits of an RSA private key.
+
+This vulnerability is an example of CWE-200: Information Exposure.
+
+A local attacker can derive the contents of memory shared with another process on the same L3 cache (same physical CPU). Virtualization and cryptographic software are examples that are likely to be vulnerable.
+
+An attacker on the same host operating system only needs read access to the executable file or a shared library component of the target process.
+
+An attacker on a different virtual machine similarly needs access to an exact copy of the executable or shared library used by the target process, and the hypervisor needs to have memory page de-duplication enabled.

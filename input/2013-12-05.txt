@@ -1,0 +1,8 @@
+Date First Published: 2013-12-05
+
+NagiosQL 3.2 Service Pack 2 contains a reflected cross-site scripting vulnerability
+
+CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')
+NagiosQL 3.2 Service Pack 2 and possibly earlier versions contain a reflected cross-site scripting vulnerability. An attacker can inject arbitrary HTML content (including script) via the vulnerable txtSearch parameter.
+
+A remote unauthenticated attacker can conduct a cross-site scripting attack, which may be used to result in information leakage, privilege escalation, and/or denial of service.

@@ -1,0 +1,11 @@
+Date First Published: 2013-10-31
+
+Tiki Wiki CMS Groupware version 11.0 contains a cross-site scripting (XSS) vulnerability
+
+CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')
+Tiki Wiki CMS Groupware version 11.0 and possibly earlier versions contain a cross-site scripting (XSS) vulnerability. An attacker can inject arbitrary script via the vulnerable query string parameter id of the ZeroClipboard.swf file.
+
+For example:
+http://www.example.com/tiki/files/ZeroClipboard.swf?id=\"))}catch(e{alert(document.domain);}//&width&height
+
+A remote attacker may be able to execute arbitrary script in the context of the end-user's browser session.

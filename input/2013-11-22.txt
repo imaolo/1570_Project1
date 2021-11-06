@@ -1,0 +1,11 @@
+Date First Published: 2013-11-22
+
+Thomson Reuters Velocity Analytics Vhayu Analytic Server version 6.9.4 build 2995 contains a code injection vulnerability
+
+CWE-94: Improper Control of Generation of Code ('Code Injection')
+Thomson Reuters Velocity Analytics Vhayu Analytic Server version 6.94 build 2995 and possibly earlier versions contain a code injection vulnerability. By default, this software package is configured to run with system privileges. A remote unauthenticated attacker can craft a URL that utilizes the software's file import function to upload malicious files or execute arbitrary code.
+
+For example:
+http://www.example.com/VhttpdMgr?action=importFile&fileName={BACKDOOR}
+
+A remote unauthenticated attacker may be able to upload malicious files or execute arbitrary code with system privileges.

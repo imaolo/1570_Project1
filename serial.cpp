@@ -1,0 +1,172 @@
+#include <bits/stdc++.h>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <iterator>
+#include <experimental/filesystem>
+
+namespace fs = std::experimental::filesystem;
+using namespace std;
+
+#define NOISES_FN "noises.txt"
+#define DELIMITERS_FN "delimiters.txt"
+#define OUTPUT_FN "serial_output.txt"
+#define stringLower(line) transform(line.begin(), line.end(), line.begin(), ::tolower);
+
+vector<string> getLinesFrom(string);
+vector<string> getInputPaths (const string&);
+vector<string> readFiles(const vector<string>&);
+vector<string> tokenize(vector<string>, string);
+vector<string> removeNoises(vector<string>, vector<string>);
+vector<pair<string,int>> countTokens(vector<string>);
+vector<pair<string,int>> getTopTokens(vector<pair<string, int>>);
+void writeToFile(string, vector<pair<string, int>>);
+
+/*
+pipeline
+1 - read delimiters file
+2 - read noises file
+3 - get file paths
+4 - read files by line
+5 - tokenize
+6 - remove noise
+7 - count remaining tokens
+8 - extract top 10% of token
+9 - write top tokens to output file
+ */
+int main(){
+  // 1 - read delimiters files
+  vector<string> delimiters = getLinesFrom(DELIMITERS_FN);
+  // 2 - read noises file
+  vector<string> noises = getLinesFrom(NOISES_FN);
+  // 3 - path_to_inputs is the path to the input files
+  // 3 - input_paths contains the paths to all input files
+  string path_to_inputs = fs::current_path().append("/input");
+  vector<string> input_paths = getInputPaths(path_to_inputs);
+  // 4 - read the files into the tokens vector. Each token is a line
+  vector<string> tokens = readFiles(input_paths);
+  // 5 - tokenize
+  for (string del: delimiters)
+    tokens = tokenize(tokens, del);//there could be memory concerns with the way I redeclare a new tokens vector inside every func call
+  // 6 - add the delimiters to the noise and remove noise
+  for (string del: delimiters){
+    if(!count(noises.begin(), noises.end(), del))
+      noises.push_back(del);
+  }
+  tokens = removeNoises(tokens, noises);
+  // 7 - count the tokens
+  vector<pair<string, int>> token_counts = countTokens(tokens);
+  // 8 - extract top 10% tokens
+  vector<pair<string, int>> top_token_counts = getTopTokens(token_counts);
+  // 9 - write top tokens to output file
+  writeToFile(OUTPUT_FN, top_token_counts);
+  return 0;
+}
+
+
+//functions
+void writeToFile(string fn, vector<pair<string, int>> token_counts){
+  ofstream file (fn);
+  if (file.is_open()){
+    vector<pair<string,int>>::iterator it;
+    for (it = token_counts.begin(); it != token_counts.end(); ++it)
+      file << it->first << ":" << it->second << endl;
+    file.close();
+  }
+  
+}
+vector<pair<string, int>> getTopTokens(vector<pair<string, int>> token_counts){
+  vector<pair<string, int>> top_token_counts;
+  int sum = 0;
+  vector<pair<string, int>>::iterator it;
+  for (it = token_counts.begin(); it != token_counts.end(); ++it)
+    sum += it->second;
+  int tmp_sum = 0;
+  for (it = token_counts.begin(); it != token_counts.end(); ++it){
+    tmp_sum += it->second;
+    float percentage = (float) tmp_sum / (float) sum;
+    if (percentage < 0.1)
+      top_token_counts.push_back(*it);
+    else
+      break;
+  }
+  return top_token_counts;
+}
+vector<string> getLinesFrom(string fn){
+  vector<string> lines;
+  ifstream file (fn);
+  string line;
+  if (file.is_open()){
+    while(getline(file,line)){
+      lines.push_back(line);
+    }
+  }
+  file.close();
+  return lines;
+}
+//countTokens helper function
+bool sortbysecdesc(const pair<string, int> &a, const pair<string, int> &b){
+  return a.second > b.second;
+}
+vector<pair<string,int>> countTokens(vector<string> tokens){
+  vector<pair<string,int>> token_counts;
+  for (string token : tokens){
+    vector<pair<string,int>>::iterator it;
+    it = find_if(token_counts.begin(), token_counts.end(), [&](const pair<string,int>& elem){return elem.first == token;});
+    if (it != token_counts.end())
+      it->second++;
+    else
+      token_counts.push_back(make_pair(token, 1));
+  }
+  sort(token_counts.begin(), token_counts.end(), sortbysecdesc);
+  return token_counts;
+}
+
+vector<string> removeNoises(vector<string> tokens, vector<string> noises){
+  for (string noise: noises){
+    vector<string>::iterator it = tokens.begin();
+    while (it != tokens.end()){
+      if (*it == noise)
+	it = tokens.erase(it);
+      else
+	it++;
+    }
+  }
+  return tokens;
+}
+vector<string> readFiles(const vector<string>& paths){
+  vector<string> lines;
+  ifstream file;
+  string line;
+  for (string path: paths){
+    file.open(path);
+    while(getline(file,line)){
+	stringLower(line);
+	lines.push_back(line);
+    }
+    file.close();
+  }
+  return lines;
+}
+vector<string> tokenize(vector<string> strings, string del){
+  vector<string> tokens;
+  for (string s: strings){
+    int start = 0;
+    int end = s.find(del);
+    while (end != -1){
+      tokens.push_back(s.substr(start, end - start));
+      start = end + del.size();
+      end = s.find(del, start);
+    }
+    tokens.push_back(s.substr(start, end - start));
+  }
+  return tokens;
+}
+vector<string> getInputPaths(const string& path){
+  vector<string> paths;
+  for (const auto & entry: fs::directory_iterator(path))
+    paths.push_back(entry.path());
+  return paths;
+}
+//g++ main.cpp -o main -lstdc++fs

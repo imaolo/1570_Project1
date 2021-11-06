@@ -1,0 +1,7 @@
+Date First Published: 2013-05-14
+
+Adobe ColdFusion 9 & 10 code injection vulnerability
+
+Adobe ColdFusion is vulnerable to a code injection attack when RDS is disabled and ColdFusion is configured to not require authentication. Adobe has released security bulletin APSB13-13 with more details regarding this vulnerability.
+
+A remote unauthenticated attacker may be able to upload a malicious .cfm file to the server and have it executed.

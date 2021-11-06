@@ -1,0 +1,20 @@
+Date First Published: 2013-10-25
+
+Tyler Technologies TaxWeb 3.13.3.1 contains multiple vulnerabilities
+
+CWE-352: Cross-Site Request Forgery (CSRF) - CVE-2013-6018
+TaxWeb 3.13.3.1 contains a cross-site request forgery vulnerability on the login.jsp pages. An attacker can send a constructed webpage link to a previously authenticated user to make an unauthorized change to their password.
+
+CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') - CVE-2013-6019
+
+TaxWeb 3.13.3.1 contains a reflected cross-site scripting vulnerability that can allow an attacker to inject arbitrary HTML content (including script) via the vulnerable query string parameter accountNum.
+
+CWE-203: Information Exposure Through Discrepancy - CVE-2013-6020
+
+TaxWeb 3.13.3.1 also contains an information exposure vulnerability. The Assessor, Recorder, and Treasurer applications in TaxWeb allow a user to recover their password via their respective passwordRequestPOST.jsp pages. The responses for a valid and invalid username differ, which may allow an attacker to derive valid usernames in a brute-force attempt. Valid usernames return with an HTTP 302 Found response, whereas an invalid username returns an HTTP 200 OK response.
+
+The attacker may also utilize a similar vulnerability in the Treasurer application. When the attacker sends an invalid search request to the search application, the response exposes the query structure to the malicious user which can leak unauthorized sensitive information.
+
+The CVSS score below reflects CVE-2013-6020.
+
+A remote unauthenticated attacker can conduct a cross-site scripting or cross-site request forgery attack, which could be used make unauthorized changes to user credentials or inject arbitrary HTML content (including script) into a web page presented to the user. JavaScript can be used to steal authentication cookies or other sensitive information. An attacker may also be able to brute-force user credentials due to the information exposure vulnerability.

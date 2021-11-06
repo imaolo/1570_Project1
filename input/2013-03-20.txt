@@ -1,0 +1,16 @@
+Date First Published: 2013-03-20
+
+Askiaweb survey application contains multiple vulnerabilities
+
+The Askiaweb survey application contains multiple vulnerabilities.
+CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') - CVE-2013-0123
+The administration interface for the Askia web survey application (http://www.askia.com/askiaweb) is vulnerable to SQL injection (blind, time-based) on 2 different parameters :
+https://[application]/WebProd/pages/pgHistory.asp [nHistoryId parameter]
+https://[application]/WebProd/pages/pgadmin.asp [OrderBy parameter]
+
+CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting') - CVE-2013-0124
+The administration interface is vulnerable to XSS on the following URLs and parameters :
+https://[application]/WebProd/cgi-bin/AskiaExt.dll [Number parameter]
+https://[application]/WebProd/cgi-bin/AskiaExt.dll [UpdatePage parameter]
+
+An attacker with access to the Askiaweb survey application web interface can conduct a cross-site scripting or sql injection attack, which could be used to result in information leakage, privilege escalation, and/or denial of service.

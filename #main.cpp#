@@ -1,0 +1,118 @@
+#include <bits/stdc++.h>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <iterator>
+#include <experimental/filesystem>
+
+namespace fs = std::experimental::filesystem;
+using namespace std;
+
+#define stringLower(line) transform(line.begin(), line.end(), line.begin(), ::tolower);
+
+vector<string> getInputPaths (const string&);
+vector<string> readFiles(const vector<string>&);
+vector<string> tokenize(vector<string>, string);
+vector<string> removeNoises(vector<string>, vector<string>);
+vector<pair<string,int>> countTokens(vector<string>);
+
+/*
+pipeline
+1 - get file paths
+2 - read files by line
+3 - tokenize
+4 - remove noise
+5 - count remaining tokens
+6 - write to output file
+ */
+int main(){
+  // 1 - path_to_inputs is the path to the input files
+  // 1 - input_paths contains the paths to all input files
+  string path_to_inputs = fs::current_path().append("/input");
+  vector<string> input_paths = getInputPaths(path_to_inputs);
+  // 2 - read the files into the tokens vector. Each token is a line
+  vector<string> tokens = readFiles(input_paths);
+  // 3 - tokenize
+  vector<string> delimiters {"-"," ", ".", ",",")","(",":","\"", "\'","/","\n",">","<","`", "[", "]"};
+  for (string del: delimiters)
+    tokens = tokenize(tokens, del);   //there could be memory concerns with the way I redeclare a new tokens vector inside every func call
+  // 4 - add the delimiters to the noise and remove noise
+  vector<string> noises{"the", "or", "with","able","which","may","","","a","an","by", "also","of", "this", "are", "it", "is", "in", "to", "are", "=","{","}","able","-"};
+  for (string del: delimiters){
+    if(!count(noises.begin(), noises.end(), del))
+      noises.push_back(del);
+  }
+  tokens = removeNoises(tokens, noises);
+  // 5 - count the tokens
+  //vector< pair<string, int> > token_counts = countTokens(tokens);
+
+  return 0;
+}
+
+
+//functions
+vector<pair<string,int>> countTokens(vector<string> tokens){
+  vector<pair<string,int>> counted_tokens;
+  for (string token : tokens){
+    vector<pair<string,int>>::iterator it;
+    it = find_if(counted_tokens.begin(), counted_tokens.end(), [&](const pair<string, int>* elem){return elem.first == token});
+    if (it != counted_tokens.end())
+      it.second = it.second + 1;
+    else
+      counted_tokens.push_back( make_pair( token, 1))
+  }
+  return counted_tokens;
+}
+
+vector<string> removeNoises(vector<string> tokens, vector<string> noises){
+  for (string noise: noises){
+    vector<string>::iterator it = tokens.begin();
+    while (it != tokens.end()){
+      if (*it == noise)
+	it = tokens.erase(it);
+      else
+	it++;
+    }
+  }
+  return tokens;
+}
+
+vector<string> readFiles(const vector<string>& paths){
+  vector<string> lines;
+  ifstream file;
+  string line;
+  for (string path: paths){
+    file.open(path);
+    while(getline(file,line)){
+	stringLower(line);
+	lines.push_back(line);
+    }
+    file.close();
+  }
+  return lines;
+}
+
+vector<string> tokenize(vector<string> strings, string del){
+  vector<string> tokens;
+  for (string s: strings){
+    int start = 0;
+    int end = s.find(del);
+    while (end != -1){
+      tokens.push_back(s.substr(start, end - start));
+      start = end + del.size();
+      end = s.find(del, start);
+    }
+    tokens.push_back(s.substr(start, end - start));
+  }
+  return tokens;
+}
+
+vector<string> getInputPaths(const string& path){
+  vector<string> paths;
+  for (const auto & entry: fs::directory_iterator(path))
+    paths.push_back(entry.path());
+  return paths;
+}
+
+//g++ main.cpp -o main -lstdc++fs

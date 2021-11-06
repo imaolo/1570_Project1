@@ -1,0 +1,14 @@
+Date First Published: 2013-01-09
+
+BigAnt IM Message server and components contain multiple vulnerabilities
+
+CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') - CVE-2012-6273
+During the SHU request (search user) from the bigant messaging client, a sql query is built from a template and sent via a http like header. Proper sanitization is not performed. It has been reported this can be demonstrated by opening up the BigAnt Messenger Client, logging into a server, and searching for an 'Account/Full Name' of blah' OR hs_User.Col_Pword LIKE '[a-z]
+
+CWE-280: Improper Handling of Insufficient Permissions or Privileges - CVE-2012-6274
+Arbitrary unauthenticated file upload in BigAnt IM Server. It has been reported that authentication for file uploads is not enforced. Uploaded files were reported to be saved to C:\Program Files\BigAntSoft\AntServer\DocData\Public.
+
+CWE-121: Stack-based Buffer Overflow - CVE-2012-6275
+Buffer overflow in AntDS.exe component of BigAnt Message server when handling the filename header in SCH requests and userid component of DUPF requests.
+
+A remote unauthenticated attacker may obtain sensitive information, cause a denial of service condition or execute arbitrary code with the privileges of the application.

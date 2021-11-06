@@ -1,0 +1,28 @@
+Date First Published: 2013-12-02
+
+EMC Document Sciences xPression contains multiple vulnerabilities
+
+EMC Document Sciences xPression 4.2 Patch 16 and possibly earlier versions contain the following vulnerabilities in the xAdmin and xDashboard applications:
+CWE-22: Improper Limitation of a Pathname to a Restricted Directory ('Path Traversal') - CVE-2013-6177
+
+The xDashboard application allows unauthorized users to read arbitrary files from the file system using the model.logFileName parameter of the /xDashboard/html/jobhistory/jobLogDisplay.action file.
+
+CWE-89: Improper Neutralization of Special Elements used in an SQL Command ('SQL Injection') - CVE-2013-6176
+
+The xAdmin application has multiple parameters that are susceptible to SQL injection attacks from an unauthorized user.
+
+CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross Site Scripting') - CVE-2013-6175
+
+The xAdmin application is vulnerable to a stored cross-site scripting attack through the marker_name parameter of the /xAdmin/html/op_xp_marker_gen.jsp file. Additionally, both the xAdmin and xDashboard applications are vulnerable to reflected cross-site scripting attacks through numerous parameters in each application.
+
+CWE-601: URL Redirection to Untrusted Site ('Open Redirect') - CVE-2013-6174
+
+The xAdmin application contains multiple files with a vulnerable redirectURL parameter.
+
+CWE-352: Cross-Site Request Forgery (CSRF) - CVE-2013-6173
+
+The xAdmin and xDashboard applications do not implement a mechanism to prevent cross-site request forgery attacks on input forms. It was reported that Document Sciences xPression version 4.2 Patch 16 and possibly earlier versions are affected by this vulnerability. EMC has stated that this vulnerability exists in version 4.2 before Patch 26 and version 4.5 before Patch 05, but does not exist in versions 4.1.x.
+
+The CVSS score reflects the path traversal vulnerability (CVE-2013-6177).
+
+An attacker may be able to read files from the filesystem, read or modify data in the application database, execute arbitrary scripts in the context of a victim's browser, redirect users to other websites, and forge requests on behalf of the victim.

@@ -1,0 +1,14 @@
+Date First Published: 2013-04-10
+
+Plesk Panel 11.0.9 privilege escalation vulnerabilities
+
+Plesk Panel contains multiple privilege escalation vulnerabilities which may allow an attacker to run arbitrary code as the root user.
+Special-case rules in Plesk's custom version of Apache suexec allow execution of arbitrary code as an arbitrary user id above a certain minimum value. In addition, several administrative or system accounts have a user ID above this minimum.
+
+
+Plesk's /usr/sbin/suexec binary (the binary may be present in additional locations, always with suexec in the filename) always allows the binary 'cgi-wrapper', bypassing restrictions on the ownership of the file to be called. Since cgi-wrapper's function is to execute a PHP script based on environment variables (and suexec does not sanitize these environment variables) this allows execution of arbitrary PHP code with a user id above a minimum user ID value that is hardcoded in the suid binary. CVE-2013-0132
+
+
+The program /usr/local/psa/admin/sbin/wrapper allows the user psaadm to execute various administrative scripts with root privileges. Some of these scripts call external programs without specifying the full path. By specifying a malicious PATH environment variable, an attacker can cause the administrative scripts to call his own program instead of the intended system program. CVE-2013-0133
+
+An authenticated attacker maybe be able to escalate their privileges to root allowing them to run arbitrary code as the root user.

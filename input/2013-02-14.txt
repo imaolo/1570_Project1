@@ -1,0 +1,11 @@
+Date First Published: 2013-02-14
+
+Adobe Reader and Acrobat memory corruption vulnerabilities
+
+The Adobe security bulletin APSB13-07 states:
+
+Adobe has released security updates for Adobe Reader and Acrobat XI (11.0.01 and earlier) for Windows and Macintosh, X (10.1.5 and earlier) for Windows and Macintosh, 9.5.3 and earlier 9.x versions for Windows and Macintosh, and Adobe Reader 9.5.3 and earlier 9.x versions for Linux. These updates address vulnerabilities that could cause a crash and potentially allow an attacker to take control of the affected system.
+
+Additional details may be found in the full bulletin APSB13-07.
+
+A remote attacker may be able to cause a denial of service or execute arbitrary code on the system in the context of the user running the Adobe product.

@@ -1,0 +1,17 @@
+Date First Published: 2013-06-05
+
+QNAP VioStor NVR firmware version 4.0.3 and QNAP NAS multiple vulnerabilities
+
+QNAP VioStor NVR firmware version 4.0.3 and possibly earlier versions and QNAP NAS with the Surveillance Station Pro activated contains multiple vulnerabilities which may allow an attacker to perform administrative functions against the hosted server.
+CWE-284: Improper Access Control CVE-2013-0142
+VioStor NVR firmware version 4.0.3 and possibly earlier versions and QNAP NAS with the Surveillance Station Pro activated contains a hardcoded guest account and password which can be leveraged to login to the webserver. It has been reported that it is not possible to view or administer the guest account using the web interface.
+
+CWE-77: Improper Neutralization of Special Elements used in a Command CVE-2013-0143
+VioStor NVR firmware version 4.0.3 and possibly earlier versions and QNAP NAS with the Surveillance Station Pro activated contains scripts which could allow any user e.g. guest users to execute scripts which run with administrative privileges. It is possible to execute code on the webserver using the ping function.
+Example: http://[server-ip]/cgi-bin/pingping.cgi?ping_ip=1;whoami
+
+CWE-352: Cross-Site Request Forgery (CSRF). CVE-2013-0144
+VioStor NVR firmware version 4.0.3 and possibly earlier versions contains a cross-site request forgery vulnerability could allow an attacker to add a new administrative account to the server by tricking an administrator to click on a malicious link while they are currently logged into the webserver.
+Example: http://[server-ip]/cgi-bin/create_user.cgi?OK=&function=USER&subfun=NEW&USERNAME=&NAME=attacker&PASSWD=12345&VERIFY=12345&create_user_list=admin&PTZ1=on&Audio1=on&PTZ2=on&Audio2=on&PTZ3=on&Audio3=on&PTZ4=on&Audio4=on
+
+An authenticated (via known credentials or hardcoded guest account) attacker may be able to execute arbitrary commands or add administrative accounts to the server.

@@ -1,0 +1,14 @@
+Date First Published: 2013-04-29
+
+McAfee ePolicy Orchestrator 4.6.4 and earlier pre-authenticated SQL injection and directory path traversal vulnerabilities
+
+McAfee ePolicy Orchestrator 4.6.4 and earlier contains a pre-authenticated sql injection and directory path traversal vulnerability:
+
+1. Server-side pre-Authenticated SQL Injection within the Agent-Handler component (Agent-Server communication channel).
+The attack is performed by registering a rogue Agent to the ePolicy Orchestrator server, and sending a crafted HTTP request to the ePolicy Orchestrator server. Successful attacks allow remote attackers to retrieve sensitive information from the ePo database (such as administrative domain credentials), to create additional web console administrator accounts, and to perform remote code execution with SYSTEM privilege. CVE-2013-0140
+
+2. Server-side pre-Authenticated Directory Path Traversal within File upload process.
+The attack is performed by registering a rogue Agent to the ePolicy Orchestrator server, and sending a crafted HTTP request to the ePolicy Orchestrator server. Successful attacks allow remote attackers to upload unrestricted file content. A typical scenario would be to store malicious files under /Software/ folder, to make them available for download from the ePolicy Orchestrator server. CVE-2013-0141
+
+
+An attacker with network access to the McAfee ePolicy Orchestrator Agent-Handler (port tcp/443 by default) could upload arbitrary files under the ePolicy Orchestrator installation folder, gain read and write access to ePolicy Orchestrator database, or run arbitrary code on the ePolicy Orchestrator system.

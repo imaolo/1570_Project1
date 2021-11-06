@@ -1,0 +1,8 @@
+Date First Published: 2013-11-07
+
+IBM Tivoli Federated Identity Manager and IBM Tivoli Federated Identity Manager Business Gateway contain a URL redirection vulnerability
+
+CWE-601: URL Redirection to Untrusted Site ('Open Redirect')
+IBM Tivoli Federated Identity Manager (TFIM) version 6.22 and possibly earlier versions, and IBM Tivoli Federated Identity Manager Business Gateway (TFIMBG) version 6.2.2 and possibly earlier versions contain a URL redirection vulnerability. An attacker can append a link to the Identity Manager URL which may cause the user to be redirected to a site with malicious content or scripts.
+
+A remote unauthenticated attacker may be able to redirect a user to a website that contains malicious content or scripts.

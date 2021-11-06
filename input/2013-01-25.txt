@@ -1,0 +1,7 @@
+Date First Published: 2013-01-25
+
+Foxit Advanced PDF Editor 3 contains a stack buffer overrun vulnerability
+
+Foxit Advanced PDF Editor 3, and possibly earlier versions, contains a stack buffer overrun vulnerability that may be exploited by an attacker that is able to successfully reconstruct the security cookie protecting the return address on the stack.
+
+An unauthenticated attacker may be able to execute arbitrary code or cause a denial-of-service.

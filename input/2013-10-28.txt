@@ -1,0 +1,8 @@
+Date First Published: 2013-10-28
+
+Cisco Identity Services Engine contains an input validation vulnerability
+
+CWE-20: Improper Input Validation
+Cisco Identity Services Engine (ISE) contains an input validation vulnerability. The ISE device contains a TCP Dump option for analyzing traffic on the device. By using a proxy to modify the HTTP request, a remote authenticated attacker can encode commands into the vulnerable format parameter which could allow them to run arbitrary code on the affected system with the privilege of the root user.
+
+A remote authenticated attacker may be able to execute arbitrary code as root on the device.

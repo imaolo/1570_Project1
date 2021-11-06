@@ -1,0 +1,8 @@
+Date First Published: 2013-04-25
+
+Citrix NetScaler and Access Gateway Enterprise Edition unauthorized access to network resources vulnerability
+
+Citrix NetScaler and Access Gateway Enterprise Edition contain a vulnerability which could allow a remote attacker to gain unauthorized access to network resources.
+For additional information please see Citrix Advisory.
+
+A remote attacker could gain unauthorized access to internal network resources.

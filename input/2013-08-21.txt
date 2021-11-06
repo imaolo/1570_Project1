@@ -1,0 +1,16 @@
+Date First Published: 2013-08-21
+
+Samsung Web Viewer for Samsung DVR allows authentication bypass and password disclosure
+
+CWE-313: Cleartext Storage in a File or on Disk - CVE-2013-3585
+Web Viewer for Samsung DVR stores user credentials in plaintext allowing an attacker to parse saved credentials on the user setup webpage.
+
+CWE-302: Authentication Bypass by Assumed-Immutable Data - CVE-2013-3586
+Web Viewer for Samsung DVR contains a vulnerability in its cookie-handling procedure that accepts any input as a valid session ID if placed after SessionID=. This allows an attacker to send a specially crafted cookie containing an malicious SessionID to the web server which bypasses authentication and can provide access to internal pages, including camera controls and account settings.
+
+For example:
+headers = { "Cookie": "=", "Accept": "text/plain"}
+
+The CVSS score below reflects the authentication bypass attack.
+
+A remote unauthenticated attacker may be able to retrieve the device's administrator password, allowing them to directly access the device's configuration web page or system password configuration files.

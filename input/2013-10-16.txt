@@ -1,0 +1,8 @@
+Date First Published: 2013-10-16
+
+Oracle Outside In Microsoft Access 1.x parser stack buffer overflow
+
+Oracle Outside In is a set of libraries that can decode over 500 different file formats. Originally written by Stellent, Outside In is now part of Oracle. The Oracle Outside In libraries are used by a variety of applications, including Microsoft Exchange, Oracle Fusion Middleware, Guidance Encase Forensics, AccessData FTK, and Novell Groupwise.
+The Outside In library for processing Microsoft Access 1.x data contains a stack buffer overflow vulnerability (CWE-121). On Microsoft Windows platforms, this capability is provided by the library vsacs.dll. Versions older than 8.4.0.108 and 8.4.1.52 are affected.
+
+By causing an application to process a specially-crafted file with the Oracle Outside In library, a remote, unauthenticated attacker may be able to execute arbitrary code with the privileges of the vulnerable application. Depending on what application is using Outside In, this may happen as the result of some user interaction, such as single-clicking on a file, or it may happen with no user interaction at all.

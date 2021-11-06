@@ -1,0 +1,12 @@
+Date First Published: 2013-07-12
+
+Wave EMBASSY Remote Administration Server SQL injection vulnerabilities
+
+The ERAS 2.8.4 and 2.9.5 Help Desk application has been reported to contain vulnerabilities to blind SQL injection as well as command execution on the target server. The vulnerability requires that the attacker be authenticated in the application.
+CWE-79 - Blind SQL Injection - CVE-2013-3577
+A blind SQL injection attack may be performed against the ct100$4MainController$TextBoxSearchValue parameter or search box.
+
+CWE-78 - Improper Neutralization of Special Elements used in an OS Command ('OS Command Injection') - CVE-2013-3578
+A stacked query based SQL attack on the ct100$4MainController$TextBoxSearchValue parameter or search box allows for a remote authenticated attacker to execute commands on the server.
+
+A remote attacker may be able to execute SQL queries on a server, possibly with elevated privileges. As a result, attackers may be able to view or modify the contents of the database. Additionally, an attacker may be able to execute operating system commands on the server, potentially allowing them to gain control of the server itself.

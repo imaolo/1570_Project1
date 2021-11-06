@@ -1,0 +1,8 @@
+Date First Published: 2013-04-08
+
+AirDroid web interface XSS vulnerability
+
+CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')
+The AirDroid web interface fails to sanitize malicious code within a text message on the target phone causing the script to be executed on the host computer.
+
+An attacker with access to the phone being controlled by AirDroid can send a text message with malicious code. When this message is viewed on the AirDroid web interface an attacker can conduct a cross-site scripting attack, which may be used to result in information leakage, privilege escalation, and/or denial of service on the host computer.

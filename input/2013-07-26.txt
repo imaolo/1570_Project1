@@ -1,0 +1,8 @@
+Date First Published: 2013-07-26
+
+TrustGo Antivirus & Mobile Security contains a denial-of-service vulnerability
+
+CWE-20: Improper Input Validation - CVE-2013-3580
+TrustGo Antivirus & Mobile Security versions 1.2.7 through 1.3.5 crash if an intent is sent to com.trustgo.mobile.security.USSDScannerActivity with no arguments.
+
+A malicious application installed on the phone may be able to disable the TrustGo Antivirus & Mobile Security software.

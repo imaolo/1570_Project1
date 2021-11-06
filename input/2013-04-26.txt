@@ -1,0 +1,7 @@
+Date First Published: 2013-04-26
+
+Henry Schein Dentrix G5 uses hard-coded database credentials shared across multiple installations
+
+Dentrix G5 has uses hard-coded credentials (CWE-798) to access a database back-end. The credentials are the same across installations of Dentrix G5. Sensitive patient information is contained in Dentrix G5 databases. An administrator is unable to change these credentials without breaking access to the back-end database. Henry Schein has provided a vendor statement with additional details about this vulnerability.
+
+An attacker who is able to obtain the database credentials from one site can potentially access databases on other sites sharing the same credentials. The attacker may need access to the local network or a system with Dentrix G5 installed in order to obtain the credentials, and the attacker would need network access to the database in order to obtain sensitive patient information.

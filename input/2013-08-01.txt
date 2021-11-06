@@ -1,0 +1,12 @@
+Date First Published: 2013-08-01
+
+Open Shortest Path First (OSPF) Protocol does not specify unique LSA lookup identifiers
+
+CWE-694: Use of Multiple Resources with a Duplicate Identifier
+The OSPF protocol requires LSA's to be identified by: LS Type, Advertising Router, and Link State ID. However, during the routing table calculation phase, the specification states that a LSA is queried in the LSA database
+using only the Link State ID. Since the Link State ID is used in the LSA database to identify a particular router, a malformed duplicate entry can cause unexpected and insecure implementation-specific behavior.
+
+In some implementations, the vulnerability can allow an attacker to subvert the routing table of victim router by sending false link state advertisements on behalf of other routers. This subversion can cause the victim router
+to drop the entire table (denial of service) or to re-route traffic on the network.
+
+This vulnerability can allow an attacker to re-route traffic, compromising the confidentiality of the data, or to conduct a denial-of-service attack against a router, dropping all traffic.

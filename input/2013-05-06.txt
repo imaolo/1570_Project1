@@ -1,0 +1,13 @@
+Date First Published: 2013-05-06
+
+Microsoft Internet Explorer 8 CGenericElement object use-after-free vulnerability
+
+Microsoft Security Advisory 2847140 states:
+
+Internet Explorer 6, Internet Explorer 7, Internet Explorer 9, and Internet Explorer 10 are not affected by the vulnerability.
+
+This is a remote code execution vulnerability. The vulnerability exists in the way that Internet Explorer accesses an object in memory that has been deleted or has not been properly allocated. The vulnerability may corrupt memory in a way that could allow an attacker to execute arbitrary code in the context of the current user within Internet Explorer. An attacker could host a specially crafted website that is designed to exploit this vulnerability through Internet Explorer and then convince a user to view the website.
+
+Additional details may be found in the full advisory. A Metasploit module has been released to exploit this vulnerability as well.
+
+A remote unauthenticated attacker may be able to run arbitrary code in the context of the user running Internet Explorer 8.

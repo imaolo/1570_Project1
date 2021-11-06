@@ -1,0 +1,7 @@
+Date First Published: 2013-04-15
+
+Arecont Vision model AV1355DN camera vulnerable to denial of service
+
+The Arecont Vision model AV1355DN MegaDome surveillance camera is reported to be affected by a denial-of-service vulnerability by sending a UDP packet to port 69 on the device. It has been reported that the camera will stop producing video when the vulnerability is triggered. It may be possible to trigger the crash using tools such as Nessus and NMAP. After triggering the denial of service the device will need to be power cycled to resume video capture.
+
+A remote unauthenticated attacker may be able to cause the camera to stop producing video until the device is power cycled.

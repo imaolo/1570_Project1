@@ -1,0 +1,7 @@
+Date First Published: 2013-02-07
+
+Nuance PDF viewing products contain multiple vulnerabilities
+
+Nuance provides two similar PDF viewing products called PDF Reader and PDF Viewer Plus. Both of these products contain multiple exploitable memory-corruption vulnerabilities. We have found that both Nuance PDF Reader 7.0 and PDF Viewer Plus 7.1 are affected.
+
+By convincing a user to view a specially crafted PDF document, an attacker may be able to execute arbitrary code on a vulnerable system.

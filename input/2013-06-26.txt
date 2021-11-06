@@ -1,0 +1,27 @@
+Date First Published: 2013-06-26
+
+Digital Alert Systems DASDEC and Monroe Electronics R189 One-Net firmware exposes private root SSH key
+
+The Digital Alert Systems DASDEC-I and DASDEC-II and Monroe Electronics R189 One-Net/R189SE One-NetSE are Linux-based EAS encoder/decoder (ENDEC) devices that are used to broadcast EAS messages over digital and analog channels. IOActive has reported several security issues affecting these devices. The most severe of these issues is the public disclosure of the default private root SSH key. The less severe issues could also contribute to an attacker's ability to compromise a vulnerable device.
+Compromised root SSH key (CVE-2013-0137)
+Publicly available firmware images for these devices included a private root SSH key that was authorized to log in to the devices (CWE-798, CWE-321). The fingerprint for the compromised SSH key is 0c:89:49:f7:62:d2:98:f0:27:75:ad:e9:72:2c:68:c3. Although this key is not hard-coded, it may be impractical for less technical users to manually disable or change they key prior to firmware version 2.0-2.
+
+Predictable session ID
+IOActive reports that the administrative web server uses a predictable, monotonically increasing session ID. This finding is based on running the web server in a test environment. Testing on a variety of firmware versions on devices both at the factory and in the field, Monroe Electronics could not reproduce this finding.
+
+Log information disclosure
+Logs available via the web server provide a variety of information about the configuration, operation, and status of the device (CWE-532). Some of the log information is public and may be required by regulation.
+
+Predictable password generation
+The dasdec_mkuser script generates passwords in a deterministic way (CWE-341), however these passwords are not for administrative access, and the script is not used for general user account configuration.
+
+Default password
+Like many similar devices, the DASDEC and One-Net ENDECs use default administrative credentials. Some sites fail to change the default administrative password and allow unrestricted internet access.
+
+An attacker with the private key and SSH access can log in to a device with root privileges.
+
+Predictable session IDs could allow an attacker to take control of an existing administrative web session.
+
+Predictable and unchanged default passwords can allow an attacker to log in to a device, possibly with root privileges. Devices exposed to the internet are at particularly high risk, for example, see Secure EAS Codecs Prevent Zombie Attacks and US-CERT Alert TA13-175A.
+
+Logs may disclose configuration information that can benefit an attacker.

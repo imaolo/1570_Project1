@@ -1,0 +1,11 @@
+Date First Published: 2013-11-14
+
+EMC Documentum Product Suite version 6.7 contains a DOM based cross-site scripting vulnerability
+
+CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')
+EMC Documentum Product Suite version 6.7 and possibly earlier versions contain a DOM based cross-site scripting vulnerability. An attacker can inject arbitrary script via the vulnerable query string parameter __dmfUrl.
+
+For example:
+http://www.example.com/webtop/wdk/redirect.jsp?ReLoad=1372583728974&__dmfUrl=javascript:alert('xss')//
+
+An unauthenticated remote attacker may be able to execute arbitrary script in the context of the end-user's browser session.

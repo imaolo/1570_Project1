@@ -1,0 +1,7 @@
+Date First Published: 2013-09-04
+
+Oracle E-Business Suite password disclosure vulnerability
+
+Oracle E-Business Suite administrators who have applied CPU patches for July 2012, October 2012, January 2013, or April 2013 and use the native login pages are affected by a credential exposure vulnerability (CWE-200). Credentials are exposed to the FND_LOG_MESSAGES database table or a log file. The credentials in the logs will be viewable by an attacker wilth privileged database or privileged operating system access.
+
+An authenticated attacker with privileged access may be able to read Oracle E-Business Suite credentials from the database logs.

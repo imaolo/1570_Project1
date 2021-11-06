@@ -1,0 +1,10 @@
+Date First Published: 2013-03-05
+
+Oracle Java contains multiple vulnerabilities
+
+The Oracle Java Runtime Environment (JRE) allows users to run Java applications in a browser or as standalone programs. Oracle has made the JRE available for multiple operating systems. OpenJDK is an open-source implementation of the Java platform, and the IcedTea project aims to make it easier to deploy OpenJDK, including a web browser plugin.
+Additional details of the vulnerability can be found at FireEye Malware Intelligence Lab blog post.
+
+This vulnerability is reportedly being exploited in the wild.
+
+By convincing a user to visit a specially crafted HTML document, a remote attacker may be able to execute arbitrary code on a vulnerable system. Note that applications that use the Internet Explorer web content rendering components, such as Microsoft Office or Windows Desktop Search, may also be used as an attack vector for these vulnerabilities.

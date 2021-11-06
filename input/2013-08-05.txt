@@ -1,0 +1,13 @@
+Date First Published: 2013-08-05
+
+Huawei networking equipment weak password cipher
+
+Huawei Security Advisory Huawei-SA-20120827-01-CX600 states:
+
+In multiple Huawei products, DES encryption algorithm is used for password and the encryption is not strong enough so it may be cracked (HWNSIRT-2012-0820).
+
+This Vulnerability has been assigned Common Vulnerabilities and Exposures (CVE) ID: CVE-2012-4960.
+
+Temporary fix for this vulnerability is available. Huawei has made the version plan to resolve this vulnerability.
+
+An attacker with access to the Huawei networking equipment encryption file may be able to crack the DES encryption algorithm to recover the system password.

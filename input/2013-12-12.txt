@@ -1,0 +1,8 @@
+Date First Published: 2013-12-12
+
+SketchUp Viewer buffer overflow vulnerability
+
+CWE-121: Stack-based Buffer Overflow - CVE-2013-6038
+SketchUp Viewer version 13.0.4124 is vulnerable to a stack buffer overflow when parsing a specially crafted .SKP file. When executed, it may allow a remote unauthenticated attacker to run arbitrary code in the context of the logged in user. It is unknown if other versions of this software are also affected.
+
+By convincing a user to open a specially crafted .SKP file with SketchUp, a remote unauthenticated attacker could execute arbitrary code on a vulnerable system in the context of the logged in user.

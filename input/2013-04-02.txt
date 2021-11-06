@@ -1,0 +1,7 @@
+Date First Published: 2013-04-02
+
+The TigerText Free Consumer Private Texting App (iOS) sends unencrypted user information in support requests
+
+The TigerText app generates an unencrypted log file containing the TigerText username and password on the device when a user taps on "Contact Customer Support." An email is generated to support that sends the log information with it. This does not impact the TigerText Pro application.
+
+TigerText usernames and passwords may be viewable by TigerText support or others with access to the device or email. A recipient of the email containing the log file could use credentials to impersonate the user, gaining unauthorized access to any non-expired messages.

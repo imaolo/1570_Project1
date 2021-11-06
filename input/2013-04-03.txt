@@ -1,0 +1,9 @@
+Date First Published: 2013-04-03
+
+C2 WebResource web interface XSS vulnerability
+
+CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')
+The C2 WebResource web interface is vulnerable to XSS on the following URL and parameter:
+https://c2webresource/fileview.asp?File=<script>alert(document.cookie)</script>
+
+An attacker with access to the C2 WebResource web interface can conduct a cross-site scripting attack, which may be used to result in information leakage, privilege escalation, and/or denial of service.

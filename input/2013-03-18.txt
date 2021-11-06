@@ -1,0 +1,7 @@
+Date First Published: 2013-03-18
+
+Fiery Network Controllers for Xerox DocuColor 242/252/260 Printer/Copier use a vulnerable version of OpenSSL
+
+Fiery Network Controllers for Xerox DocuColor 242/252/260 Printer/Copier uses OpenSSL for SSL/TLS encryption. The version of OpenSSL that comes with the Fiery Network Controllers for Xerox DocuColor 242/252/260 Printer/Copier is 0.9.8o that is out of date and known to be vulnerable.
+
+A remote attacker may be able to cause a denial of service or possibly run arbitrary code.

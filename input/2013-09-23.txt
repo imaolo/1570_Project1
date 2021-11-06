@@ -1,0 +1,8 @@
+Date First Published: 2013-09-23
+
+Dell iDRAC 6 and iDRAC 7 are vulnerable to a cross-site scripting (XSS) attack
+
+CWE-79: Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')
+Dell iDRAC 6 version 1.41 and Dell iDRAC 7 version 1.40.40's administrative web interface login page can allow remote attackers to inject arbitrary script via the vulnerable query string parameter ErrorMsg.
+
+A remote unauthenticated attacker may be able to execute arbitrary script in the context of the user's browser.

